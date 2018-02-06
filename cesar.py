@@ -2,86 +2,63 @@
 
           
 
- def obtenerModo():
+def obtenerModo():
+    while True:
+        print('¿Deseas encriptar o desencriptar un mensaje?')
+        modo = input().lower()
+        if modo in 'encriptar e desencriptar d'.split():
+            return modo
+        else:
+            print('Ingresa "encriptar" o "e" o "desencriptar" o "d"')
 
- while True:
+def obtenerMensaje():
+    print('Ingresa tu mensaje:')
+    return input()
 
-	print('¿Deseas encriptar o desencriptar un mensaje?')
-
-	modo = input().lower()
-
-	if modo in 'encriptar e desencriptar d'.split():
-
-             return modo
-
-         else:
-
-             print('Ingresa "encriptar" o "e" o "desencriptar" o "d"')
-
- def obtenerMensaje():
-
-     print('Ingresa tu mensaje:')
-
-     return input()
-
-
-
- def obtenerClave():
-
+def obtenerClave():
     clave = 0
-     while True:
+    while True:
+        print('Ingresa el número de clave (1-%s)' % (TAM_MAX_CLAVE))
+        clave = int(input())
+        if (clave >= 1 and clave <= TAM_MAX_CLAVE):
+            return clave
 
-         print('Ingresa el número de clave (1-%s)' % (TAM_MAX_CLAVE))
+def obtenerMensajeTraducido(modo, mensaje, clave):
+    if modo[0] == 'd':
+        clave= -clave
+    traduccion = ''
 
-         clave = int(input())
+    for simbolo in mensaje:
+        if simbolo.isalpha():
+            num = ord(simbolo)
+            num += clave
 
-         if (clave >= 1 and clave <= TAM_MAX_CLAVE):
+            if simbolo.isupper():
+                if num > ord('Z'):
+                    num -= 26
+                elif num < ord('A'):
+                    num += 26
+            elif simbolo.islower():
+                if num > ord('z'):
+                    num -= 26
+                elif num < ord('a'):
 
-             return clave
-
-
-
- def obtenerMensajeTraducido(modo, mensaje, clave):
-
-     if modo[0] == 'd':
-
-         clave= -clave
-
-     traduccion = ''
-
-
-     for simbolo in mensaje:
-         if simbolo.isalpha():
-
-             num = ord(simbolo)
-             num += clave
-
-             if simbolo.isupper():
-                 if num > ord('Z'):
-                     num -= 26
-                 elif num < ord('A'):
-                     num += 26
-             elif simbolo.islower():
-                 if num > ord('z'):
-                     num -= 26
-                 elif num < ord('a'):
-
-                     num += 26
+                    num += 26
 
 
-             traduccion += chr(num)
+            traduccion += chr(num)
 
-         else:
+        else:
 
-             traduccion += simbolo
+            traduccion += simbolo
 
-     return traduccion
+    return traduccion
 
- modo = obtenerModo()
+modo = obtenerModo()
 
- mensaje = obtenerMensaje()
+mensaje = obtenerMensaje()
 
- clave = obtenerClave()
+clave = obtenerClave()
 
 print('Tu texto traducido es:')
 
