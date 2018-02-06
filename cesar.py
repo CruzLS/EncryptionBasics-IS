@@ -1,4 +1,4 @@
- TAM_MAX_CLAVE = 26
+TAM_MAX_CLAVE = 26
 
           
 
@@ -44,12 +44,9 @@ def obtenerMensajeTraducido(modo, mensaje, clave):
                 elif num < ord('a'):
 
                     num += 26
-
-
             traduccion += chr(num)
 
         else:
-
             traduccion += simbolo
 
     return traduccion

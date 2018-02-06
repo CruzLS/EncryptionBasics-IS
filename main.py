@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+import os
 import string
 import re
 import sys
@@ -5,6 +8,8 @@ import sys
 LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 TAM_MAX_CLAVE = 26
 
+def __init__(self):
+    pass
 
 def cifrar():
     textoCifrado = ''
@@ -21,6 +26,7 @@ def cifrar():
         7. Cifrar Playfair
         8. Decifrar Playfair
         9. Cesar (Cifrar - Descifrar)
+        10. Polybius
         X. Salir
         """)
         ans=input("¿Qué deseas hacer? ")
@@ -60,6 +66,134 @@ def cifrar():
             print( cifrar_plaifair())
         elif ans=="8":
             print(decifrar_playfair())
+        elif ans=="9":
+            def obtenerModo():
+                while True:
+                    print('¿Deseas encriptar o desencriptar un mensaje?')
+                    modo = input().lower()
+                    if modo in 'encriptar e desencriptar d'.split():
+                        return modo
+                    else:
+                        print('Ingresa "encriptar" o "e" o "desencriptar" o "d"')
+           
+
+            def obtenerMensaje():
+                print('Ingresa tu mensaje:')
+                return input()
+
+            def obtenerClave():
+                clave = 0
+                while True:
+                    print('Ingresa el número de clave (1-%s)' % (TAM_MAX_CLAVE))
+                    clave = int(input())
+                    if (clave >= 1 and clave <= TAM_MAX_CLAVE):
+                        return clave
+
+            def obtenerMensajeTraducido(modo, mensaje, clave):
+                if modo[0] == 'd':
+                    clave= -clave
+                traduccion = ''
+
+                for simbolo in mensaje:
+                    if simbolo.isalpha():
+                        num = ord(simbolo)
+                        num += clave
+
+                        if simbolo.isupper():
+                            if num > ord('Z'):
+                                num -= 26
+                            elif num < ord('A'):
+                                num += 26
+                        elif simbolo.islower():
+                            if num > ord('z'):
+                                num -= 26
+                            elif num < ord('a'):
+
+                                num += 26
+                        traduccion += chr(num)
+
+                    else:
+                        traduccion += simbolo
+
+                return traduccion
+
+            modo = obtenerModo()
+
+            mensaje = obtenerMensaje()
+
+            clave = obtenerClave()
+
+            print('Tu texto traducido es:')
+
+            print(obtenerMensajeTraducido(modo, mensaje, clave))       
+        elif ans=="10":    
+            def __prepare_sentence__(self, sentence):
+                """Prepare a sentence for the encryption"""
+                accent = ["âà", "éèêë", "îï", "ô", "ûü", "ç"]
+                ascii = ["A", "E", "I", "O", "U", "C"]
+                
+                i = 0
+                for word in accent: # Replacing accented characters possible
+                    for letter in word:
+                        sentence = sentence.replace(letter, ascii[i])
+                    i += 1
+                for letter in "',-;:!?.":  # Remove punctuation
+                    sentence = sentence.replace(letter, "")
+                sentence = sentence.upper()  # Passage in capitals letters
+                return sentence
+
+            def encipher(self, to_encrypt):
+                """Encipher a plaintext"""
+                List_H, List_V = [], []
+                for j in range(4):
+                    for i in range(5):
+                        List_H.append(chr(65+5*j+i))
+                    List_V.append(List_H)
+                    List_H = []
+                List_H = []
+                List_H.append(chr(85))
+                List_H.append(chr(86))
+                List_H.append(chr(88))
+                List_H.append(chr(89))
+                List_H.append(chr(90))
+                List_V.append(List_H)
+                
+                to_encrypt = self.__prepare_sentence__(to_encrypt)
+                to_encrypt = to_encrypt.replace(" ", "")  # Remove the space
+                
+                for i in range(len(to_encrypt)):
+                    pos = ord(to_encrypt[i])-65
+                    verti = str(int((pos/5)+1))
+                    hori = str((pos % 5)+1)
+                    fin = verti + hori
+                    print (fin, end=' ')
+                print()
+
+            def decipher(self, to_decrypt):
+                """Decipher a ciphertext"""
+                List_H, List_V = [], []
+                for j in range(4):
+                    for i in range(5):
+                        List_H.append(chr(65+5*j+i))
+                    List_V.append(List_H)
+                    List_H = []
+                List_H = []
+                List_H.append(chr(85))
+                List_H.append(chr(86))
+                List_H.append(chr(88))
+                List_H.append(chr(89))
+                List_H.append(chr(90))
+                List_V.append(List_H)
+
+                to_decrypt = to_decrypt.replace(" ", "")  # Remove the space
+                length = len(to_decrypt)
+                
+                for h in range(0, length, 2):
+                    pos = int(to_decrypt[h])-1
+                    pos2 = int(to_decrypt[h+1])-1
+                    carac = List_V[pos][pos2]
+                    print(carac, end='')
+            print()
         elif ans=="X":
             print("\n Bye...")
             sys.exit()
@@ -248,6 +382,9 @@ def translate_vigenere(key, message, mode):
         else:
             translated.append(symbol)
     return ''.join(translated)
+
+
+
 
 #Inicia menu del programa
 cifrar()
